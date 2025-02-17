@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Finance Tracker</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="dark-theme">
+    <div class="app-container">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <img src="/static/images/logo.svg" alt="Logo" class="logo">
+                <h1>Finance AI</h1>
+            </div>
+            
+            <ul class="nav-links">
+                <li data-page="dashboard" class="active">
+                    <a href="#" onclick="switchPage('dashboard')">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                        </svg>
+                        Dashboard
+                    </a>
+                </li>
+                <li data-page="transactions">
+                    <a href="#" onclick="switchPage('transactions')">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        Transactions
+                    </a>
+                </li>
+                <li data-page="analytics">
+                    <a href="#" onclick="switchPage('analytics')">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                        Analytics
+                    </a>
+                </li>
+            </ul>
+
+            <div class="user-section">
+                <img src="/static/images/user-avatar.svg" alt="User" class="avatar">
+                <div class="user-info">
+                    <span class="user-name">Loading...</span>
+                    <span class="user-email">Loading...</span>
+                </div>
+                <button onclick="logout()" class="logout-btn">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                    </svg>
+                </button>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="header-content">
+                    <h2>Dashboard</h2>
+                    <p class="subtitle">Welcome back! Here's your financial overview.</p>
+                </div>
+                <button class="add-transaction-btn" onclick="showAddTransactionModal()">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M12 4v16m8-8H4"></path>
+                    </svg>
+                    Add Transaction
+                </button>
+            </header>
+
+            <div class="dashboard-grid">
+                <!-- Quick Stats -->
+                <div class="stats-container">
+                    <div class="stat-card" id="totalSpending">
+                        <div class="stat-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Total Spending</h3>
+                            <div class="value">Loading...</div>
+                            <div class="trend"></div>
+                        </div>
+                    </div>
+                    <div class="stat-card" id="monthlyAverage">
+                        <div class="stat-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Monthly Average</h3>
+                            <div class="value">Loading...</div>
+                            <div class="trend"></div>
+                        </div>
+                    </div>
+                    <div class="stat-card" id="largestExpense">
+                        <div class="stat-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Largest Expense</h3>
+                            <div class="value">Loading...</div>
+                            <div class="trend"></div>
+                        </div>
+                    </div>
+                    <div class="stat-card" id="transactionCount">
+                        <div class="stat-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="stat-content">
+                            <h3>Total Transactions</h3>
+                            <div class="value">Loading...</div>
+                            <div class="trend"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts -->
+                <div class="chart-card">
+                    <div class="card-header">
+                        <h3>Spending Trends</h3>
+                        <div class="card-actions">
+                            <button class="period-btn active">Week</button>
+                            <button class="period-btn">Month</button>
+                            <button class="period-btn">Year</button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="spendingTrendsChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="card-header">
+                        <h3>Category Distribution</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Recent Transactions -->
+                <div class="transactions-card">
+                    <div class="card-header">
+                        <h3>Recent Transactions</h3>
+                        <a href="#transactions" class="view-all">View All</a>
+                    </div>
+                    <div class="transactions-list" id="recentTransactions">
+                        <div class="loading-skeleton">
+                            <div class="skeleton-row"></div>
+                            <div class="skeleton-row"></div>
+                            <div class="skeleton-row"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Transaction Modal -->
+    <div id="addTransactionModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add Transaction</h2>
+                <button class="close-btn" onclick="closeAddTransactionModal()">×</button>
+            </div>
+            <form id="transactionForm">
+                <div class="form-group">
+                    <label for="amount">Amount</label>
+                    <div class="input-with-icon">
+                        <span class="currency-symbol">$</span>
+                        <input type="number" id="amount" required step="0.01" min="0">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <input type="text" id="description" required>
+                </div>
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select id="category" required>
+                        <option value="Food">Food</option>
+                        <option value="Transportation">Transportation</option>
+                        <option value="Entertainment">Entertainment</option>
+                        <option value="Shopping">Shopping</option>
+                        <option value="Bills">Bills</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="secondary-btn" onclick="closeAddTransactionModal()">Cancel</button>
+                    <button type="submit" class="primary-btn">Add Transaction</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add page containers -->
+    <div id="dashboard-page" class="page active">
+        <!-- Existing dashboard content -->
+    </div>
+
+    <div id="transactions-page" class="page">
+        <div class="page-header">
+            <h2>Transactions</h2>
+            <button class="add-transaction-btn" onclick="showAddTransactionModal()">Add Transaction</button>
+        </div>
+        <div class="transactions-list" id="allTransactions">
+            <!-- Transactions will be loaded here -->
+        </div>
+    </div>
+
+    <div id="analytics-page" class="page">
+        <div class="page-header">
+            <h2>Analytics</h2>
+        </div>
+        <div class="analytics-grid">
+            <div class="chart-card">
+                <h3>Spending Trends</h3>
+                <div class="chart-container">
+                    <canvas id="spendingTrendsChart"></canvas>
+                </div>
+            </div>
+            <div class="chart-card">
+                <h3>Category Distribution</h3>
+                <div class="chart-container">
+                    <canvas id="categoryChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/script.js"></script>
+    <div id="toastContainer"></div>
+</body>
+</html>

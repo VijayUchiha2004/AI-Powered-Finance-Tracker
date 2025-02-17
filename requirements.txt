@@ -4,3 +4,6 @@ sqlalchemy
 python-dotenv
 openai
 pydantic
+authlib
+httpx
+itsdangerous
